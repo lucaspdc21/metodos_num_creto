@@ -1,16 +1,7 @@
 import numpy as np
 
 def metodo_da_potencia_regular(A, chute_inicial, tolerancia=1e-6, max_iteracoes=1000):
-    """
-    Método para calcular a o autovalor dominante e o autovetor correspondente
-    Args:
-        A: Matriz de entrada.
-        chute_inicial : O vetor inicial para começar as iterações.
-        tolerancia: tolerancia do erro para critério de parada.
-        max_iteracoes: Evitar loops infinitos.
-    Returns:
-        (float, np.array): Uma tupla contendo o autovalor dominante e o autovetor correspondente normalizado.
-    """
+
     # Passos de inicialização.
     matriz_A = np.array(A, dtype=float)
     x_k = np.array(chute_inicial, dtype=float)
