@@ -65,6 +65,7 @@ def metodo_qr(A, tol=1e-6):
         soma_quadrados_abaixo_diag = np.sum(np.square(np.tril(A_nova, k=-1)))
 
         A_atual = A_nova
+        print(f"Iteração {k}: A_atual =\n{A_atual}\n")
         k += 1
         if soma_quadrados_abaixo_diag < tol:
             print(f"Convergência alcançada na iteração {k}.")
@@ -75,9 +76,12 @@ def metodo_qr(A, tol=1e-6):
     # Os autovetores são as colunas da matriz P acumulada
     autovetores = P
     
-    return autovetores, autovalores
+    return autovetores, autovalores, P, A_atual
 
 if __name__ == '__main__':
+    np.set_printoptions(precision=3, suppress=True)
+
+    print("Tarefa #15:")
 
     A = np.array([[40, 8, 4, 2, 1],
                   [8, 30, 12, 6, 2],
@@ -87,8 +91,9 @@ if __name__ == '__main__':
 
     print("Matriz Original A:\n", A)
 
-    autovetores_qr, autovalores_qr = metodo_qr(A)
-
+    autovetores_qr, autovalores_qr, matriz_acumulada, matriz_diagonal  = metodo_qr(A)
+    print("\nMatriz Diagonalizada A:\n", matriz_diagonal)
+    print("\nMatriz Acumulada P:\n", matriz_acumulada)
     print("\nAutovalores encontrados :\n", autovalores_qr)
     print("\nAutovetores encontrados:\n", autovetores_qr)
     

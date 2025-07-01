@@ -69,12 +69,19 @@ def main():
     
     A_tridiagonal, H_acumulada = metodo_de_householder(A)
     
-    print("RESULTADO DO PASSO 1:")
     print("Matriz Tridiagonal:")
     print(A_tridiagonal)
     print("Matriz Acumulada:")
     print(H_acumulada)
-    
+
+    print("Verificar ortoganalidade, deve ser identidade")
+    identidade_calculada = H_acumulada.T @ H_acumulada 
+    print(identidade_calculada)
+
+    print("Verificar similiariadede")
+    A_reconstruida = H_acumulada @ A_tridiagonal @ H_acumulada.T
+    print(A_reconstruida)
+
 
 if __name__ == "__main__":
     main()
