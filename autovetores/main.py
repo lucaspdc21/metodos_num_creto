@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.linalg import lu_factor, lu_solve
 
 def metodo_da_potencia_regular(A, chute_inicial, tolerancia=1e-6, max_iteracoes=1000):
 
@@ -84,8 +85,62 @@ def metodo_da_potencia_inverso(A, chute_inicial, tolerancia=1e-6, max_iteracoes=
     
     return autovalor_menor, autovetor_menor
 
+def potencia_com_deslocamento(A, chute_inicial, mu, tolerancia=1e-6, max_iteracoes=1000):
+    matriz_A = np.array(A, dtype=float)
+    n = matriz_A.shape[0]
+    
+    matriz_identidade = np.identity(n)
+    A_deslocada = matriz_A - mu * matriz_identidade
+    
+    lambda_a, x_c = metodo_da_potencia_inverso(A_deslocada, chute_inicial, tolerancia, max_iteracoes)
+    
+    if lambda_a is None:
+        return None, None
+
+    lambda_i = lambda_a + mu
+    
+    x_i = x_c
+    
+    return lambda_i, x_i
+
+
 
 if __name__ == "__main__":
+        
+    A1 = [[5, 2, 1], 
+          [2, 3, 1], 
+          [1, 1, 2]]
+          
+    v0 = [1, 1, 1]
+
+    autovalores_reais = np.linalg.eigvals(A1)
+    print(f"Autovalores reais da Matriz A1 (calculados com NumPy): {np.sort(autovalores_reais)}")
+    print("-" * 50)
+
+    mu1 = 1.2
+    print(f"Buscando o autovalor mais próximo de μ = {mu1}...")
+    lambda_prox1, autovetor_prox1 = potencia_com_deslocamento(A1, v0, mu=mu1)
+    
+    if lambda_prox1 is not None:
+        print(f"Autovalor Encontrado (λᵢ): {lambda_prox1:.6f}")
+        print(f"Autovetor Correspondente (xᵢ): {autovetor_prox1}")
+        # Verificação: A * xᵢ ≈ λᵢ * xᵢ
+        verificacao_Ax = np.dot(A1, autovetor_prox1)
+        verificacao_lambdax = lambda_prox1 * autovetor_prox1
+        print(f"Verificação (A*xᵢ): {verificacao_Ax}")
+        print(f"Verificação (λᵢ*xᵢ): {verificacao_lambdax}\n")
+
+    mu2 = 6.0
+    print(f"Buscando o autovalor mais próximo de μ = {mu2}...")
+    lambda_prox2, autovetor_prox2 = potencia_com_deslocamento(A1, v0, mu=mu2)
+
+    if lambda_prox2 is not None:
+        print(f"Autovalor Encontrado (λᵢ): {lambda_prox2:.6f}")
+        print(f"Autovetor Correspondente (xᵢ): {autovetor_prox2}")
+        verificacao_Ax = np.dot(A1, autovetor_prox2)
+        verificacao_lambdax = lambda_prox2 * autovetor_prox2
+        print(f"Verificação (A*xᵢ): {verificacao_Ax}")
+        print(f"Verificação (λᵢ*xᵢ): {verificacao_lambdax}")
     
     A1 = [[5, 2, 1], 
           [2, 3, 1], 
