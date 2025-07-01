@@ -67,7 +67,7 @@ def metodo_qr(A, tol=1e-6):
         A_atual = A_nova
         k += 1
         if soma_quadrados_abaixo_diag < tol:
-            print(f"Convergência alcançada na iteração {k+1}.")
+            print(f"Convergência alcançada na iteração {k}.")
             break
     # Os autovalores são os elementos da diagonal da matriz final A_atual
     autovalores = np.diag(A_atual)
